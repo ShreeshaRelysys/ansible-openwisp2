@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'openwisp_controller.config',
     'openwisp_controller.geo',
     'openwisp_controller.connection',
+{% if openwisp2_controller_subnet_division %}
+    'openwisp_controller.subnet_division',
+{% endif %}
 {% if openwisp2_monitoring %}
     'openwisp_monitoring.monitoring',
     'openwisp_monitoring.device',
@@ -58,6 +61,12 @@ INSTALLED_APPS = [
 {% endif %}
 {% if openwisp2_firmware_upgrader %}
     'openwisp_firmware_upgrader',
+{% endif %}
+    'openwisp_ipam',
+{% if openwisp2_radius %}
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'openwisp_radius',
 {% endif %}
     # openwisp2 admin theme
     # (must be loaded here)
@@ -73,11 +82,6 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'rest_framework.authtoken',
     'django_filters',
-{% if openwisp2_radius %}
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
-    'openwisp_radius',
-{% endif %}
 {% if openwisp2_firmware_upgrader or openwisp2_radius %}
     'private_storage',
 {% endif %}
@@ -109,6 +113,8 @@ AUTH_USER_MODEL = 'openwisp_users.User'
 SITE_ID = 1
 LOGIN_REDIRECT_URL = 'admin:index'
 ACCOUNT_LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'email_confirmation_success'
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'email_confirmation_success'
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -125,9 +131,16 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    {% if openwisp2_radius %}
+    'sesame.middleware.AuthenticationMiddleware',
+    {% endif %}
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'pipeline.middleware.MinifyHTMLMiddleware'
+]
+
+AUTHENTICATION_BACKENDS = [
+    'openwisp_users.backends.UsersAuthenticationBackend',
 ]
 
 {% if openwisp2_radius %}
@@ -142,6 +155,12 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 OPENWISP_RADIUS_SMS_TOKEN_MAX_IP_DAILY = {{ openwisp2_radius_sms_token_max_ip_daily }}
 SENDSMS_BACKEND = '{{ openwisp2_radius_sms_backend }}'
 
+# django-sesame configuration for magic sign-in links.
+# Refer https://github.com/aaugustin/django-sesame#django-sesame.
+AUTHENTICATION_BACKENDS += [
+    'sesame.backends.ModelBackend',
+]
+SESAME_MAX_AGE = {{ openwisp2_django_sesame_max_age }}
 {% endif %}
 
 ROOT_URLCONF = 'openwisp2.urls'

@@ -143,7 +143,7 @@ To **install ansible** we suggest you follow the official [ansible installation 
 
 Please ensure that you have the correct version of Jinja installed in your Python environment:
 ```
-pip install Jinja>=2.11
+pip install Jinja2>=2.11
 ```
 
 After having installed ansible, **you need to install git** (example for linux debian/ubuntu systems):
@@ -796,6 +796,11 @@ Below are listed all the variables you can customize (you may also want to take 
     openwisp2_network_topology: false
     openwisp2_firmware_upgrader: false
     openwisp2_radius: false
+    # Setting this to true will enable subnet division feature of
+    # openwisp-controller. Refer openwisp-controller documentation
+    # for more information. https://github.com/openwisp/openwisp-controller#subnet-division-app
+    # By default, it is set to false.
+    openwisp2_controller_subnet_division: true
     # when openwisp2_radius_urls is set to false, the radius module
     # is setup but it's urls are not added, which means API and social
     # views cannot be used, this is helpful if you have an external
@@ -880,7 +885,7 @@ Below are listed all the variables you can customize (you may also want to take 
         - TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'apptemplates.Loader')
     # extra URL settings for django
     openwisp2_extra_urls:
-      - "url(r'', include('my_custom_app.urls'))"
+      - "path(r'', include('my_custom_app.urls'))"
     # controller URL are enabled by default
     # but can be disabled in multi-VM installations if needed
     openwisp2_controller_urls: true
@@ -1043,6 +1048,9 @@ Below are listed all the variables you can customize (you may also want to take 
     postfix_smtpd_relay_restrictions_override: permit_mynetworks
     # allows overriding the default duration for keeping notifications
     openwisp2_notifications_delete_old_notifications: 10
+    # Expiration time limit (in seconds) of magic sign-in links.
+    # Magic sign-in links are used only when OpenWISP RADIUS is enabled.
+    openwisp2_django_sesame_max_age: 1800 # 30 minutes
     # Maximum file size(in bytes) allowed to be uploaded as firmware image.
     # It overrides "openwisp2_nginx_client_max_body_size" setting
     # and updates nginx configuration accordingly.
