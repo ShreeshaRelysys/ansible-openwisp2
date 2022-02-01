@@ -83,7 +83,7 @@
   pip:
     name:
       # - "openwisp-controller~={{ openwisp2_controller_version }}"
-      - "https://github.com/openwisp/openwisp-controller/tarball/master"
+      - "https://github.com/ShreeshaRelysys/openwisp-controller/tarball/master"
       - channels_redis~=3.1.0
       - service_identity
     state: latest
@@ -137,7 +137,7 @@
 - name: Install openwisp2 network topology and its dependencies
   when: openwisp2_network_topology
   pip:
-    name: "https://github.com/openwisp/openwisp-network-topology/tarball/master"
+    name: "https://github.com/ShreeshaRelysys/openwisp-network-topology/tarball/master"
     # name: "openwisp-network-topology~={{ openwisp2_network_topology_version }}"
     state: latest
     virtualenv: "{{ virtualenv_path }}"
@@ -156,7 +156,7 @@
 - name: Install openwisp firmware upgrader and its dependencies
   when: openwisp2_firmware_upgrader
   pip:
-    name: "https://github.com/openwisp/openwisp-firmware-upgrader/tarball/master"
+    name: "https://github.com/ShreeshaRelysys/openwisp-firmware-upgrader/tarball/master"
     # name: "openwisp-firmware-upgrader~={{ openwisp2_firmware_upgrader_version }}"
     state: latest
     virtualenv: "{{ virtualenv_path }}"
@@ -176,7 +176,7 @@
   when: openwisp2_monitoring
   pip:
     # name: "openwisp-monitoring~={{ openwisp2_monitoring_version }}"
-    name: "https://github.com/openwisp/openwisp-monitoring/tarball/master"
+    name: "https://github.com/ShreeshaRelysys/openwisp-monitoring/tarball/master"
     state: latest
     virtualenv: "{{ virtualenv_path }}"
     virtualenv_python: "{{ openwisp2_python }}"
@@ -195,7 +195,7 @@
   when: openwisp2_radius
   pip:
     # name: "openwisp-radius~={{ openwisp2_radius_version }}"
-    name: "https://github.com/openwisp/openwisp-radius/tarball/master"
+    name: "https://github.com/ShreeshaRelysys/openwisp-radius/tarball/master"
     state: latest
     virtualenv: "{{ virtualenv_path }}"
     virtualenv_python: "{{ openwisp2_python }}"
