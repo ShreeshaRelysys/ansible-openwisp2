@@ -1,7 +1,7 @@
 ---
 
 dependencies:
-  - src: https://github.com/Stouts/Stouts.postfix
+  - src: https://github.com/ShreeshaRelysys/Stouts.postfix
     version: origin/develop
     name: Stouts.postfix
     when: openwisp2_postfix_install
